@@ -1,0 +1,115 @@
+Private Sub UserForm_Initialize()
+
+    'Define as configurações iniciais do formulário
+    
+    nameBox.Value = ""
+    ageBox.Value = 18
+    'SpinButton1.Value = 18
+    mascButton.Value = False
+    femButton.Value = False
+    otherButton.Value = False
+    deptBox.Clear
+    
+    'Opções da caixa de combinação do deptBox
+    With deptBox
+        .AddItem "Administração"
+        .AddItem "Compras"
+        .AddItem "Engenharia"
+        .AddItem "Financeiro"
+        .AddItem "Jurídico"
+        .AddItem "Planejamento"
+        .AddItem "Recursos humanos"
+        .AddItem "Tecnologia da Informação"
+        .AddItem "Vendas"
+        .Style = 2 'Impede que o usuário entre um input diferente dos listados
+    End With
+    
+    unitBox.Clear
+    
+    'Opções da caixa de combinação do unitBox
+    With unitBox
+        .AddItem "Niterói"
+        .AddItem "Rio de Janeiro"
+        .AddItem "São Gonçalo"
+    End With
+        
+    CheckBoxMorning.Value = False
+    CheckBoxAftnoon.Value = False
+    CheckBoxNight.Value = False
+        
+
+End Sub
+
+Private Sub botaoCadastrar_Click()
+
+    Dim LinVazia As Long
+    
+    'Determina a primeira linha vazia da tabela
+    LinVazia = Worksheets("DB").Cells(Rows.Count, 1).End(xlUp).Row + 1
+    
+    
+    'Adiciona o ID na coluuna "A" do banco de dados
+    Cells(LinVazia, 1).Value = LinVazia - 1
+
+    
+    'Adiciona o nome e a idade nas colunas "B" e "C" do banco de dados respectivamente
+    Cells(LinVazia, 2).Value = nameBox.Value
+    Cells(LinVazia, 3).Value = ageBox.Value
+    
+    'Adiona a opção de sexo escolhida na coluna "D" do banco de dados
+    Select Case True
+    
+        Case mascButton
+        Cells(LinVazia, 4).Value = "Masculino"
+        
+        Case femButton
+        Cells(LinVazia, 4).Value = "Feminino"
+        
+        Case otherButton
+        Cells(LinVazia, 4).Value = "Outro"
+        
+    End Select
+    
+    
+    'Adiciona o departamento na coluna "E" do banco de dados
+    Cells(LinVazia, 5).Value = deptBox.Value
+    
+    'Adiciona a unidade na coluna "F" do banco de dados
+    Cells(LinVazia, 6).Value = unitBox.Value
+    
+    
+    'Adiciona o turno trabalhado na coluna "G" do bando de dados
+    If CheckBoxMorning.Value = True Then
+        Cells(LinVazia, 7) = CheckBoxMorning.Caption
+    End If
+    
+    If CheckBoxAftnoon.Value = True Then
+        If Not IsEmpty(Cells(LinVazia, 7)) Then
+            Cells(LinVazia, 7).Value = Cells(LinVazia, 7).Value & "," & CheckBoxAftnoon.Caption
+        Else
+            Cells(LinVazia, 7).Value = CheckBoxAftnoon.Caption
+        End If
+    End If
+    
+    If CheckBoxNight.Value = True Then
+        If Not IsEmpty(Cells(LinVazia, 7)) Then
+            Cells(LinVazia, 7).Value = Cells(LinVazia, 7).Value & "," & CheckBoxNight.Caption
+        Else
+            Cells(LinVazia, 7).Value = CheckBoxNight.Caption
+        End If
+    End If
+
+End Sub
+
+Private Sub botaoCancelar_Click()
+
+End Sub
+
+Private Sub botaoLimpar_Click()
+
+End Sub
+
+Private Sub SpinButton1_Change()
+
+End Sub
+
